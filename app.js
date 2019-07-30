@@ -1,12 +1,14 @@
 const koa = require('koa')
-const Router = require("koa-router")
+const parser = require('koa-bodyparser')
+const InitManager = require('./core/init')
+const catchError = require('./middlewares/exception')
+
+require('./app/models/user')
+
+
 const app = new koa()
-const router = new Router()
-
-router.get('/classic/latest' , (ctx, next) => {
-  ctx.body = { key : 'classic'}
-})
-
-app.use(router.routes())
+app.use(catchError)
+app.use(parser())
+InitManager.initCore(app)
 
 app.listen(3000)
