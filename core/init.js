@@ -6,12 +6,19 @@ class InitManager {
 
     InitManager.app = app
     InitManager.initLoadRouters()
+    InitManager.loadHttpException()
     InitManager.loadConfig()
   }
   static loadConfig(path=''){
     const configPath = path || process.cwd() + '/config/config.js'
     const config = require(configPath)
     global.config = config
+  }
+
+  static loadHttpException(){
+    //每当应用程序启动的时候，都会把http-exception里的类都装载到global里，使用global方法导入全部的类
+    const errors = require('./http-exception')
+    global.errs = errors
   }
 
   static initLoadRouters() {
